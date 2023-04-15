@@ -1,9 +1,10 @@
-# カードを表すクラス
-class Card
-  # カードのマークと数字を初期化する
-  def initialize(mark, number)
-    @mark = mark
-    @number = number
+# ゲームを表すクラス
+class Game
+  # ゲームを初期化する
+  def initialize
+    @deck = Deck.new
+    @player = Player.new
+    @dealer = Player.new
   end
 
   # カードの点数を返す
@@ -55,6 +56,8 @@ end
 
 # プレイヤーを表すクラス
 class Player
+  attr_reader :hand
+
   # 手札を初期化する
   def initialize
     @hand = []
@@ -77,6 +80,11 @@ class Player
     total
   end
 
+  # バーストしたかどうかを判定する
+  def busted?
+    point > 21
+  end
+
   # 手札を文字列で返す
   def to_s
     @hand.map(&:to_s).join(', ')
@@ -94,13 +102,17 @@ class Game
 
   # ゲームを開始する
   def start
-    puts "ブラックジャックを開始します。"
+    puts "ブラックジャックカードを開始します。"
 
     # プレイヤーとディーラーにカードを2枚ずつ配る
-    2.times do
-      @player.hit(@deck.draw)
-      @dealer.hit(@deck.draw)
-    end
+    2.times
+
+    # プレイヤーとディーラーにカードを2枚ずつ配る
+2.times do
+  @player.hit(@deck.draw)
+  @dealer.hit(@deck.draw)
+end
+
 # プレイヤーのターン
 while @player.can_hit? do
   @player.hit(@deck.draw)
@@ -113,13 +125,14 @@ end
 
 # 勝敗を判定する
 if @player.busted?
-  puts "Player busted. Dealer wins."
+  puts "あなたはバーストしました。あなたの負けです！"
 elsif @dealer.busted?
-  puts "Dealer busted. Player wins."
-elsif @player.hand_value > @dealer.hand_value
-  puts "Player wins."
-elsif @player.hand_value < @dealer.hand_value
-  puts "Dealer wins."
+  puts "ディーラーがバーストしました。あなたの勝ちです！"
+elsif @player.point > @dealer.point
+  puts "あなたの勝ちです！"
+elsif @player.point < @dealer.point
+  puts "あなたの負けです！"
 else
-  puts "It's a tie."
+  puts "引き分けです！"
+end
 end
