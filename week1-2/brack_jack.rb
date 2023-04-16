@@ -1,11 +1,12 @@
 # ゲームを表すクラス
 class Game
-  # ゲームを初期化する
+  # ゲームを初期化
   def initialize
     @deck = Deck.new
     @player = Player.new
     @dealer = Player.new
   end
+end
 
   # カードの点数を返す
   def point
@@ -32,7 +33,6 @@ class Game
       "#{@number}#{@mark}"
     end
   end
-end
 
 # デッキを表すクラス
 class Deck
@@ -58,6 +58,12 @@ end
 class Player
   attr_reader :hand
 
+  # もう1枚カードを引いてもよいかどうかを判定する
+def can_hit?
+  point < 17
+end
+
+
   # 手札を初期化する
   def initialize
     @hand = []
@@ -71,7 +77,7 @@ class Player
   # 手札の点数を計算する
   def point
     total = @hand.map(&:point).sum
-    # Aが含まれていて、かつ合計が11以下の場合はAを11として計算する
+    # Aが含まれていて、かつ合計が11以下の場合はAを11として計算
     if @hand.map(&:to_s).include?('A♠') || @hand.map(&:to_s).include?('A♣') || @hand.map(&:to_s).include?('A♥') || @hand.map(&:to_s).include?('A♦')
       if total <= 11
         total += 10
@@ -80,7 +86,7 @@ class Player
     total
   end
 
-  # バーストしたかどうかを判定する
+  # バーストしたかどうかを判定
   def busted?
     point > 21
   end
@@ -100,16 +106,15 @@ class Game
     @dealer = Player.new
   end
 
-  # ゲームを開始する
-  def start
-    puts "ブラックジャックカードを開始します。"
+# ゲームを開始する
+def start
+  puts "ブラックジャックカードを開始します。"
 
-    # プレイヤーとディーラーにカードを2枚ずつ配る
-    2.times
-
-    # プレイヤーとディーラーにカードを2枚ずつ配る
+# プレイヤーとディーラーにカードを2枚ずつ配る
 2.times do
   @player.hit(@deck.draw)
+end
+2.times do
   @dealer.hit(@deck.draw)
 end
 
@@ -123,7 +128,7 @@ while @dealer.can_hit? do
   @dealer.hit(@deck.draw)
 end
 
-# 勝敗を判定する
+# 勝敗を判定
 if @player.busted?
   puts "あなたはバーストしました。あなたの負けです！"
 elsif @dealer.busted?
@@ -134,5 +139,8 @@ elsif @player.point < @dealer.point
   puts "あなたの負けです！"
 else
   puts "引き分けです！"
+    end
+  end
 end
-end
+
+puts 'ブラックジャックを終了します。'
