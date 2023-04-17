@@ -1,4 +1,2 @@
-# apprentice
 # appentice_practice
-# appentice_practice
-# appentice_practice
+- アプレンティスの課題や日報です。
