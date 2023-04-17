@@ -4,6 +4,7 @@ class VendingMachine
     @amount = 0
   end
 
+  #コインを投入するメソッド
   def deposit_coin(amount)
     if amount == 100
       @amount += amount
