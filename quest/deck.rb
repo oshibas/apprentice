@@ -5,11 +5,11 @@ class Deck
   # カードを初期化
   def initialize
     @cards = build_deck  # デッキを構築
-    @cards = []
-    # カードを生成してデッキに追加
-    ['♠', '♣', '♥', '♦'].each do |mark|
-      (1..13).each do |number|
+    @cards = [] # カードを生成してデッキに追加
+    [:clubs, :diamonds, :spades, :hearts].each do |suit|
+      (2..10).each do |number|
         card = Card.new(mark, number)
+        # cards << Card.new(suit, number)
         @cards << card
       end
     end
@@ -18,7 +18,7 @@ class Deck
   suits.product(values).map { |suit, value| Card.new(value, suit) }.shuffle
 end
 
-# デッキからカードを1枚引く（ランダム）
+# @cardsからランダムに1枚引く。
 def draw
-  @cards.shuffle!.pop
+  @cards.shuffle!.pop # .popメソッド：配列の最後のカードを取り出して返し、配列からはカードを削除する
 end
