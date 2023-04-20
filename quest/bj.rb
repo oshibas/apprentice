@@ -1,19 +1,25 @@
-# # ゲームを表すクラス
-# class Game
-#   # ゲームを初期化
-#   def initialize
-#     @deck = Deck.new
-#     @player = Player.new
-#     @dealer = Player.new
-#   end
-# end
+require_relative 'deck'
+require_relative 'hand'
+require_relative 'player'
+require_relative 'dealer'
+
+
+# ゲームを表すクラス
+class Game
+  # ゲームを初期化
+  def initialize
+    @deck = Deck.new
+    @player = Player.new
+    @dealer = Player.new
+  end
+end
 
 # カードの点数を返す
 def point
     # 数字が1から10の場合はその数字を、11以上の場合は10を返す
     if @number <= 10
       @number
-    else
+    elsepw
       10
     end
   end
@@ -34,25 +40,25 @@ def to_s
     end
 end
 
-# # デッキを表すクラス
-# class Deck
-#   # カードを初期化する
-#   def initialize
-#     @cards = []
-#     # カードを生成してデッキに追加する
-#     ['♠', '♣', '♥', '♦'].each do |mark|
-#       (1..13).each do |number|
-#         card = Card.new(mark, number)
-#         @cards << card
-#       end
-#     end
-#   end
+# デッキを表すクラス
+class Deck
+  # カードを初期化する
+  def initialize
+    @cards = []
+    # カードを生成してデッキに追加する
+    ['♠', '♣', '♥', '♦'].each do |mark|
+      (1..13).each do |number|
+        card = Card.new(mark, number)
+        @cards << card
+      end
+    end
+  end
 
-# # デッキからカードをランダムに1枚取り出す
-# def draw
-#     @cards.shuffle!.pop
-# end
-# end
+# デッキからカードをランダムに1枚取り出す
+def draw
+    @cards.shuffle!.pop
+end
+end
 
 # プレイヤーを表すクラス
 class Player

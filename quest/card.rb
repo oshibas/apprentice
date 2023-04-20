@@ -37,20 +37,20 @@ end
 end
 
 # Deckクラス
-class Deck
-  # カードの配列のアクセサ
-  attr_reader :cards
+# class Deck
+#   # カードの配列のアクセサ
+#   attr_reader :cards
 
-# イニシャライザ
-def initialize
-  @cards = [] # カードの配列
-  numbers = ("1".."10").to_a + %w[J Q K] # 数字の配列（1から10までとJ,Q,K）
-  suits = %w[♠ ♥ ♦ ♣] # スートの配列（記号）
-  numbers.product(suits) do |number, suit| # 数字とスートの直積を取る
-    @cards << Card.new(number, suit) # 各数字と各スートの組み合わせでカードを生成して配列に追加する
-  end
-  shuffle! # デッキをシャッフルする
-end
+# # イニシャライザ
+# def initialize
+#   @cards = [] # カードの配列
+#   numbers = ("1".."10").to_a + %w[J Q K] # 数字の配列（1から10までとJ,Q,K）
+#   suits = %w[♠ ♥ ♦ ♣] # スートの配列（記号）
+#   numbers.product(suits) do |number, suit| # 数字とスートの直積を取る
+#     @cards << Card.new(number, suit) # 各数字と各スートの組み合わせでカードを生成して配列に追加する
+#   end
+#   shuffle! # デッキをシャッフルする
+# end
 
 
   # デッキをシャッフルするメソッド
@@ -127,65 +127,65 @@ end
   end
 end
 
-# Playerクラス（Handクラスの子クラス）
-class Player < Hand
-  # イニシャライザ
-  def initialize(name)
-    super() # 親クラスのイニシャライザを呼び出す
-    @name = name # プレイヤーの名前
-  end
-end
+# # Playerクラス（Handクラスの子クラス）
+# class Player < Hand
+#   # イニシャライザ
+#   def initialize(name)
+#     super() # 親クラスのイニシャライザを呼び出す
+#     @name = name # プレイヤーの名前
+#   end
+# end
 
-  # プレイヤーの名前を返すメソッド
-  def name
-    @name # プレイヤーの名前を返す
-  end
+#   # プレイヤーの名前を返すメソッド
+#   def name
+#     @name # プレイヤーの名前を返す
+#   end
 
-  # プレイヤーがカードを引くかどうかを返すメソッド
-  def hit?
-    puts "#{@name}さん、カードを引きますか？"
-    puts "Y: 引く / N: 引かない"
-    answer = gets.chomp.upcase # 入力を受け取って大文字にする
-    while answer != "Y" && answer != "N" # 入力がYかNでない場合
-      puts "YかNで答えてください。"
-      answer = gets.chomp.upcase # 再入力を受け取る
-    end
-    answer == "Y" # 入力がYならtrue、Nならfalseを返す
-  end
+#   # プレイヤーがカードを引くかどうかを返すメソッド
+#   def hit?
+#     puts "#{@name}さん、カードを引きますか？"
+#     puts "Y: 引く / N: 引かない"
+#     answer = gets.chomp.upcase # 入力を受け取って大文字にする
+#     while answer != "Y" && answer != "N" # 入力がYかNでない場合
+#       puts "YかNで答えてください。"
+#       answer = gets.chomp.upcase # 再入力を受け取る
+#     end
+#     answer == "Y" # 入力がYならtrue、Nならfalseを返す
+#   end
 
-  # プレイヤーの手札の情報を文字列で返すメソッド（オーバーライド）
-  def to_s
-    "#{@name}さんの手札: #{super}" # 親クラスのメソッドに名前を付け加える
-  end
-end
+#   # プレイヤーの手札の情報を文字列で返すメソッド（オーバーライド）
+#   def to_s
+#     "#{@name}さんの手札: #{super}" # 親クラスのメソッドに名前を付け加える
+#   end
+# end
 
-# Dealerクラス（Handクラスの子クラス）
-class Dealer < Hand
-  # イニシャライザ（オーバーライド）
-  def initialize
-    super() # 親クラスのイニシャライザを呼び出す
-    @hidden = true # カードを隠すかどうかのフラグ（初期値はtrue）
-  end
+# # Dealerクラス（Handクラスの子クラス）
+# class Dealer < Hand
+#   # イニシャライザ（オーバーライド）
+#   def initialize
+#     super() # 親クラスのイニシャライザを呼び出す
+#     @hidden = true # カードを隠すかどうかのフラグ（初期値はtrue）
+#   end
 
-  # ディーラーがカードを引くかどうかを返すメソッド（オーバーライド）
-  def hit?
-    total < 17 # 合計値が17未満ならtrue、そうでなければfalseを返す
-  end
+#   # ディーラーがカードを引くかどうかを返すメソッド（オーバーライド）
+#   def hit?
+#     total < 17 # 合計値が17未満ならtrue、そうでなければfalseを返す
+#   end
 
-  # カードを隠すかどうかを設定するメソッド
-  def hide(hide)
-    @hidden = hide # 引数によってフラグを変更する
-  end
+#   # カードを隠すかどうかを設定するメソッド
+#   def hide(hide)
+#     @hidden = hide # 引数によってフラグを変更する
+#   end
 
-  # ディーラーの手札の情報を文字列で返すメソッド（オーバーライド）
-  def to_s
-    if @hidden # カードを隠す場合
-      "ディーラーの手札: #{cards[0]} ?" # 最初のカードだけ表示する
-    else # カードを隠さない場合
-      "ディーラーの手札: #{super}" # 親クラスのメソッドと同じように表示する
-    end
-  end
-end
+#   # ディーラーの手札の情報を文字列で返すメソッド（オーバーライド）
+#   def to_s
+#     if @hidden # カードを隠す場合
+#       "ディーラーの手札: #{cards[0]} ?" # 最初のカードだけ表示する
+#     else # カードを隠さない場合
+#       "ディーラーの手札: #{super}" # 親クラスのメソッドと同じように表示する
+#     end
+#   end
+# end
 
 # Cardクラス
 class Card

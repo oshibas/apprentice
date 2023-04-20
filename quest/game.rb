@@ -1,10 +1,10 @@
 # ゲームを表すクラス
 class Game
-
-  attr_accessor :suit, :rank, :show;
-  # ゲームを初期化
+  attr_accessor :suit, :rank;
+  # classで定義したインスタンスを初期化
   def initialize
     @deck = Deck.new
+    @hand = Hand.new
     @player = Player.new
     @dealer = Dealer.new
   end
@@ -19,7 +19,7 @@ class Game
     puts "ディーラーの引いた2枚目のカードはわかりません。"
 
     loop do
-      puts "あなたの現在の得点は#{player.hand.points}です。カードを引きますか？(Y/N)"
+      puts "あなたの現在の得点は#{@player_hand.points}です。カードを引きますか？(Y/N)"
       decision = gets.chomp.downcase
       break if decision == "n"
 
@@ -33,7 +33,7 @@ class Game
     end
 
     if @player.hand.busted?
-      puts "あなたの現在の得点は#{@player.hand.points}です。"
+      puts "あなたの現在の得点は#{player.hand.points}です。"
       puts "バーストしました。あなたの負けです。"
     else
       puts "ディーラーの引いた2枚目のカードは#{dealer.hand.cards[1]}です。"
@@ -60,11 +60,3 @@ class Game
       puts "ブラックジャックを終了します。"
     end
   end
-
-  # 初期カードを配るメソッド（省略）
-  def deal_initial_cards
-    # 省略
-  end
-end
-
-Game.new.play
