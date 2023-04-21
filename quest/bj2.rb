@@ -1,8 +1,8 @@
-  # 必要なファイルを読み込む
-  require_relative 'deck'
-  require_relative 'hand'
-  require_relative 'player'
-  require_relative 'dealer'
+  # # 必要なファイルを読み込む
+  # require_relative 'deck'
+  # require_relative 'hand'
+  # require_relative 'player'
+  # require_relative 'dealer'
 
 # ゲームを表すクラス
 class Game
@@ -22,9 +22,9 @@ class Game
       2.times do
         card = @deck.draw
         player.hit(card)
-        puts "#{player.name}の引いたカードは#{card}です。"
+        puts "あなたの引いたカードは#{card}です。"
       end
-      puts "#{player.name}の現在の得点は#{player.point}です。"
+      puts "あなたの現在の得点は#{player.point}です。"
     end
     2.times do
       card = @deck.draw
@@ -36,17 +36,17 @@ class Game
     # プレイヤーのターン
     @players.each do |player|
       while player.can_hit? do
-        puts "#{player.name}の現在の得点は#{player.point}です。カードを引きますか？（Y/N）"
+        puts "あなたの現在の得点は#{player.point}です。カードを引きますか？（Y/N）"
         if gets.chomp.upcase == "Y"
           card = @deck.draw
           player.hit(card)
-          puts "#{player.name}の引いたカードは#{card}です。"
+          puts "あなたの引いたカードは#{card}です。"
         else
           break
         end
       end
       if player.busted?
-        puts "#{player.name}はバーストしました。"
+        puts "あなたはバーストしました。"
       end
     end
 
@@ -62,15 +62,15 @@ class Game
     # 結果を表示
     @players.each do |player|
       if player.busted?
-        puts "#{player.name}はバーストしています。"
+        puts "#あなたはバーストしました。ディーラーの勝ちです。"
       elsif @dealer.busted?
-        puts "#{player.name}の勝ちです！"
+        puts "ディーラーがバーストしました。あなたの勝ちです！"
       elsif player.point > @dealer.point
-        puts "#{player.name}の勝ちです！"
+        puts "あなたの勝ちです！"
       elsif player.point == @dealer.point
-        puts "#{player.name}とディーラーは引き分けです。"
+        puts "引き分けです。"
       else
-        puts "#{player.name}の負けです。"
+        puts "あなたの負けです。"
       end
     end
     puts "ブラックジャックを終了します。"
