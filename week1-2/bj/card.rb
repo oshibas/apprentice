@@ -7,7 +7,7 @@ class Card
   end
 
   def to_s
-    "#{suit}#{value}"
+    "#{suit}の#{value}"
   end
 
   def point
