@@ -15,6 +15,7 @@ class Deck
   end
 
   def draw
+    #配列から最後のカードを1枚取り出す。そのカードを配列から削除。
     cards.pop
   end
 end
