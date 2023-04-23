@@ -9,8 +9,8 @@ class Deck
 
   def build_deck
     # スートと値の組み合わせを生成する
-    suits = ["ハート", "ダイヤ", "クラブ", "スペード"]
-    values = %w[A 2 3 4 5 6 7 8 9 10 J Q K]
+    suits = ["ハート", "ダイヤ", "クラブ", "スペード"].freeze
+    values = %w[A 2 3 4 5 6 7 8 9 10 J Q K].freeze
     suits.product(values).map { |suit, value| Card.new(value, suit) }.shuffle
   end
 
