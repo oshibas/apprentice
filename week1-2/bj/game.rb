@@ -23,9 +23,7 @@ class Game
   # ゲームを開始
   def play
     puts "♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣"
-    puts ""
     puts "ブラックジャックを開始します。"
-    puts ""
     puts "♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣"
     puts ""
 
@@ -34,7 +32,6 @@ class Game
 
     # プレイヤーが最初に引いた2枚のカードを表示する
     puts "あなたの引いた1枚目のカードは#{player.hand.cards[0]}です。"
-    puts ""
     puts "あなたの引いた2枚目のカードは#{player.hand.cards[1]}です。"
     puts ""
 
@@ -49,7 +46,6 @@ class Game
     # プレイヤーがカードを引くかどうかを尋ねる
     loop do
       puts "あなたの現在の得点は#{player.hand.points}です。"
-      puts ""
       puts "カードを引きますか？（Y/N）"
       puts ""
       decision = gets.chomp.downcase
@@ -70,7 +66,6 @@ class Game
     # プレイヤーがバーストした場合
     if player.hand.busted?
       puts "あなたの現在の得点は#{player.hand.points}です。"
-      puts ""
       puts "あなたはバーストしました。"
       puts ""
       puts "残念！！あなたは負けてしまいました。"
@@ -80,7 +75,6 @@ class Game
     else
       # ディーラーの2枚目のカードを表示する
       puts "ディーラーの引いた2枚目のカードは#{dealer.hand.cards[1]}でした。"
-      puts ""
       puts "ディーラーの現在の得点は#{dealer.hand.points}です。"
       puts ""
 
@@ -89,7 +83,6 @@ class Game
         card = deck.draw
         dealer.hit(card)
         puts "ディーラーの引いたカードは#{card}です。"
-        puts ""
         puts "ディーラーの現在の得点は#{dealer.hand.points}です。"
         puts ""
       end
@@ -103,7 +96,6 @@ class Game
 
       elsif player.hand.points > dealer.hand.points
         puts "あなたの得点は#{player.hand.points}です。"
-        puts ""
         puts "ディーラーの得点は#{dealer.hand.points}です。"
         puts ""
         puts "あなたの勝ちです！おめでとうございます！！"
@@ -111,7 +103,6 @@ class Game
 
       elsif player.hand.points < dealer.hand.points
         puts "あなたの得点は#{player.hand.points}です。"
-        puts ""
         puts "ディーラーの得点は#{dealer.hand.points}です。"
         puts ""
         puts "残念！！あなたは負けてしまいました。"
@@ -123,9 +114,7 @@ class Game
 
       end
       puts "♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣"
-      puts ""
       puts "ブラックジャックを終了します。"
-      puts ""
       puts "♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣"
     end
 
