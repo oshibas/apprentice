@@ -46,5 +46,6 @@
 - rmdir projects
 - rmdirはremove directoryの略。ただし、中身が空のときだけ使える。
 - ディレクトリに中身があるとき：rm -r projects
-- -rは再起的にすべての
+- -r はファイルを含めすべて削除する。
 - 同上、消す前に確認してほしいとき：rm -ri projects
+- -i は削除する前に確認する。
