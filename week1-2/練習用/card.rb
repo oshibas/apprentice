@@ -19,6 +19,7 @@ class Card
     @suit = suit
   end
 
+end
  # カードの値を返すメソッド
 def value
   # 数字と値の対応表をハッシュで定義する
