@@ -35,18 +35,17 @@
 - rm リムーブ
 
 ## 7. シンボリックリンク
-> 作成した README.md に対して、シンボリックリンクを貼ってください。シンボリックリンクのファイル名は README_SYMBOLIC.md としてください。作成後、README.md に対して任意の文章を追記してください。その後、symbolic_file の中身を出力し、追記した内容が README_SYMBOLIC.md にも反映されていることを確認してください。
-- touch README1.md（ubuntu:~/environment にREADMEが既存のため）
-- ln -s README1.md README_SYMBOLIC.md
+> 作成した README.md に対して、シンボリックリンクを貼ってください。シンボリックリンクのファイル名は README_SYMBOLIC.md としてください。
+> 作成後、README.md に対して任意の文章を追記してください。その後、symbolic_file の中身を出力し、追記した内容が README_SYMBOLIC.md にも反映されていることを確認してください。
+- touch README001.md（ubuntu:~/environment にREADMEが既存のため）
+- ln -s README001.md README_SYMBOLIC.md
 - rm README_SYMBOLIC.md
-- ln -s README1.md README_SYMBOLIC.md
+- ln -s README001.md README_SYMBOLIC.md
 - echo "test" >> README.md
 - cat README_SYMBOLIC.md
-- README_SYMBOLIC.md: Is a directory
-- touch でファイルとして作成したはずが、ディレクトリだよ！となる...
+
+### シンボリックリンクの利点
 - シンボリックリンク：あるファイルやディレクトリを別の場所から参照するための仕組み。
--
-- シンボリックリンクの利点
 1. ファイルやディレクトリの別名を付けることがでる。パス名を短くしたり、わかりやすい名前にできる。
 2. ファイルやディレクトリを別の場所から参照できる。同じファイルやディレクトリに対して、複数のアクセスポイントを作成できる。
 3. ファイルやディレクトリの移動や削除が容易になる。シンボリックリンクは、実体がないため、サイズが小さく、移動や削除が簡単。シンボリックリンクを削除しても、リンク先のファイルやディレクトリは影響を受けない。
