@@ -65,7 +65,7 @@ ls -ld ~/superuser
 drwxr-xr-x 2 root root 4096 Apr 27 02:31 /home/ubuntu/superuser
 ubuntu:~/environment
 ```
-- スーパーユーザーとしてコマンドを実行するとき：「sudo」というコマンドを使う。sudoは、superuser doの略。
-- superuserディレクトリのオーナーはroot。
-- rootはスーパーユーザーの名前。
-- スーパーユーザーは、システム上のすべてのファイルやディレクトリに対して、読み取り・書き込み・実行の権限を持つ特別なユーザー。
+- superuserディレクトリのオーナー： root
+- root: スーパーユーザーの名前。
+- sudo: superuser doの略。スーパーユーザーとしてコマンドを実行する。
+- スーパーユーザー: システム上のすべてのファイルやディレクトリに対して、読み取り・書き込み・実行の権限を持つ特別なユーザー。
