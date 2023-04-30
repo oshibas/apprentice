@@ -34,8 +34,9 @@ git push origin main
 4. クローン
 > GitHub 上にある他者が作成したリポジトリを自分の PC 上にクローンしてください。クローン対象は何でも良いです。
 ```ubuntu
-# 今回は山浦さんのポーカーをクローンする
-cd oop_porker
+# 今回は練習用の公開リポジトリをクローン
+cd github-practice
 # git clone <リポジトリのURL>
-git clone https://github.com/kiyodori/oop_poker.git
+git clone https://github.com/mollifier/github-practice.git
+# ローカルにクローンされた
 ```
