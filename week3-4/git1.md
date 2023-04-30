@@ -14,7 +14,8 @@ vim README.md # Helloを追記
 ```ubuntu
 # 変更状況を確認
 git status
-#
+
+# 変更状況
 On branch main
 
 No commits yet
@@ -28,18 +29,30 @@ Changes not staged for commit:
   (use "git restore <file>..." to discard changes in working directory)
 	modified:   README.md
 
-
 ```
 
 ## 2. 変更内容の確認
 > 何が変更されたか、変更内容を確認してください。
 ```ubuntu
-cd git_practice
-vim README.md
+# 変更内容の確認
+git diff
+
+# 変更内容
+diff --git a/README.md b/README.md
+index e69de29..10ddd6d 100644
+--- a/README.md
++++ b/README.md
+@@ -0,0 +1 @@
++Hello!
 ```
 
 ## 3. 変更履歴
 > 変更の履歴（ログ）を確認してください。
 ```ubuntu
+# ログを確認
+git log
+
+# ログの内容
+fatal: your current branch 'main' does not have any commits yet
 
 ```
