@@ -39,44 +39,69 @@ cd /git_test
 
 > ローカル（自分の PC ）で pullrequest ブランチを新規作成し、切り替えてください
 ```ubuntu
+# ブランチを新規作成
 git branch pullrequest
+
+# ブランチの切り替え
 git checkout pullrequest
 ```
 > 任意のファイルに変更を行ってください
 ```ubuntu
-
-
+test.md
 ```
 > 変更をコミットしてください
 ```ubuntu
+git add test.md
+git commit -m "test"
 
-
+[pullrequest 112c3d9] test
+ 1 file changed, 1 insertion(+)
+ create mode 100644 week1-2/test.md
 ```
 > GitHub に pullrequest というブランチ名で変更をプッシュしてください
 ```ubuntu
+git push origin pullrequest
 
-
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (4/4), 408 bytes | 408.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote:
+remote: Create a pull request for 'pullrequest' on GitHub by visiting:
+remote:      https://github.com/oshibas/appentice_practice/pull/new/pullrequest
+remote:
+To github.com:oshibas/appentice_practice.git
+ * [new branch]      pullrequest -> pullrequest
 ```
 > GitHub を開き、pullrequest ブランチから main ブランチへのプルリクエストを作成してください
 ```ubuntu
-
-
+GitHub上でプルリクエストを作成する
+GitHubのリポジトリページにアクセスし、pullrequestブランチに切り替える。
+"Compare & pull request"（比較してプルリクエスト）ボタンをクリック。
+プルリクエストのタイトルや説明を入力し、変更内容を確認。
+問題がなければ、"Create pull request"（プルリクエストの作成）ボタンをクリック。
 ```
 > 変更内容を確認し、問題なければ GitHub 上で変更をマージしてください
 ```ubuntu
-
-
+プルリクエストページで変更内容を確認。
+問題がなければ、"Merge pull request"（プルリクエストのマージ）ボタンをクリック。
 ```
 > GitHub 上の pullrequest ブランチを削除してください
 ```ubuntu
-
-
+プルリクエストがマージされたら、GitHub上でpullrequestブランチを削除。
+Pull request successfully merged and closed
+You’re all set—the pullrequest branch can be safely deleted.
+- Delete branch をクリック。
 ```
 ## ３. ローカルへのリポートリポジトリの変更内容の取り込み
 > ローカルリポジトリのブランチを main ブランチに切り替えてください。
 ```ubuntu
-
-
+git checkout main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
 ```
 > 次に、リモートリポジトリ（GitHub）の main ブランチの内容をローカルリポジトリの main ブランチに取り込んでください。
 ```ubuntu
