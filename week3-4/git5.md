@@ -105,12 +105,20 @@ Your branch is up to date with 'origin/main'.
 ```
 > 次に、リモートリポジトリ（GitHub）の main ブランチの内容をローカルリポジトリの main ブランチに取り込んでください。
 ```ubuntu
-
-
+git pull origin main
+From github.com:oshibas/appentice_practice
+ * branch            main       -> FETCH_HEAD
+Already up to date.
 ```
 > それができたらローカルリポジトリの pullrequest ブランチを削除してください。
 ```ubuntu
-
+git branch -d pullrequest
+error: The branch 'pullrequest' is not fully merged.
+If you are sure you want to delete it, run 'git branch -D pullrequest'.
+* ブランチが完全にマージされていないため、エラー。
+* ブランチの変更をマージする前に削除したい場合は、次のコマンドを使用
+git branch -D pullrequest
+Deleted branch pullrequest (was de1a31e).
 
 ```
 > ※開発を行う際はここから1に戻り、この1~2のステップを繰り返します
