@@ -1,5 +1,6 @@
 #!/bin/bash
 # 無限ループ内でユーザーにメニューを表示し、選択肢に応じて適切な処理を行う
+
 while true; do
     echo "パスワードマネージャーへようこそ！"
     echo "次の選択肢から入力してください(Add Password/Get Password/Exit):"
