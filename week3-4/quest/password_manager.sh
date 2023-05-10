@@ -67,7 +67,9 @@ while true; do
         *)
             echo "入力が間違えています。Add Password/Get Password/Exitから入力してください。"
             ;;
+    # case終了
     esac
+# while終了
 done
 
     # 一時ファイルを削除する。
