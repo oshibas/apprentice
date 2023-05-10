@@ -12,12 +12,12 @@
 ## ご利用方法
 
 ### 1. GnuPGをインストール/設定
-   - PGP（Pretty Good Privacy）: ファイルを暗号化するための無料ソフトウェアです。
+   - GnuPG: ファイルを暗号化するための無料ソフトウェアです。
    - 下記のコマンドを実行すると、インストールできます。（MAC, Linux環境）
 ```shell
  sudo apt install gnupg
 ```
-  - PGPの設定: https://wiki.archlinux.jp/index.php/GnuPG
+  - GnuPGの設定: https://wiki.archlinux.jp/index.php/GnuPG
 ### 2. password_manager.zshをダウンロード
   - GitHubリポジトリの「<>code」プルダウンから、「Download Zip」をクリック。
 
