@@ -1,27 +1,27 @@
-# Read ME
+# READ ME
 
 ## パスワードマネージャー
 
-ファイル: password_manager.sh
-暗号化されたパスワード管理ツールです。
+シェルスクリプトで、簡易なパスワードマネージャーをつくりました。
+「GnuPG」を使って、暗号化しています。
 
-以下の機能を持っています。
+## 機能
 - パスワードの保存: passwords.txtに追記されます。
 - パスワードの検索: サービス名から検索し、パスワードを表示します。
 
 ## ご利用方法
 
-### 1. GnuPGをインストール/設定
+### 1. GnuPGをインストール
    - GnuPG: ファイルを暗号化するための無料ソフトウェアです。
    - 下記のコマンドを実行すると、インストールできます。（MAC, Linux環境）
 ```shell
  sudo apt install gnupg
 ```
-  - GnuPGの設定: https://wiki.archlinux.jp/index.php/GnuPG
+  - 鍵ペアを作成: 詳細はこちらをご参照ください。:https://wiki.archlinux.jp/index.php/GnuPG
 ### 2. password_manager.zshをダウンロード
   - GitHubリポジトリの「<>code」プルダウンから、「Download Zip」をクリック。
 
-### 3. password_manager.zshを実行
+### 3. password_manager.shを実行
 
   - 下記のコマンドを入力してください。
   - ファイルに実行権限を付与し、ファイルを起動します。
