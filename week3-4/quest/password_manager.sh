@@ -71,7 +71,4 @@ while true; do
 done
 
     # 一時ファイルを削除する。
-    # tempdir=$(mktemp -d) を使って一時ディレクトリを作成して、それを trap コマンドで削除する。
-    # 実行中に予期せぬエラーが発生した場合でも、一時ファイルを確実に削除できるため。
-    tempdir=$(mktemp -d)
-    trap 'rm -rf "$tempdir"' EXIT
+    rm password.txt
