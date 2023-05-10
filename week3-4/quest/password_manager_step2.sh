@@ -8,16 +8,13 @@ while true; do
 
     case $choice in
         "Add Password")
-            # -pオプションでプロンプトを表示
             read -p "サービス名を入力してください: " serviceName
             read -p "ユーザー名を入力してください: " userName
             # -s: 入力されたパスワードを表示させない
             read -s -p "パスワードを入力してください: " password
-
-            # 入力された情報をpassword.gpgファイルに暗号化して追記する
+            # 入力された情報をpasswords.txtファイルに追記する
             echo "$serviceName:$userName:$password" >> passwords.txt
             echo "パスワードの追加は成功しました。"
-            # ;; 各処理の終了を示す
             ;;
         "Get Password")
             read -p "サービス名を入力してください: " serviceName
@@ -38,7 +35,6 @@ while true; do
             echo "Thank you!"
             exit
             ;;
-        #  *)どの値にも一致しなかった場合の処理
         *)
             echo "入力が間違えています。Add Password/Get Password/Exitから入力してください。"
             ;;
