@@ -1,56 +1,48 @@
 # インターネットTV
 
-## ステップ1: テーブル設計
+## テーブル設計
 
-### テーブル名： channels
+### channels テーブル：
 
-| カラム名 | データ型     | NULL | キー    | 初期値 | AUTO INCREMENT |
-| -------- | ------------ | ---- | ------- | ------ | -------------- |
-| id       | bigint(20)   |      | PRIMARY |        | YES            |
-| name     | varchar(255) |      |         |        |                |
+| カラム名 | データ型     | NULL許容 | 備考         |
+| -------- | ------------ | -------- | ------------ |
+| id       | int(11)      | NO       | PRIMARY KEY  |
+| name     | varchar(255) | YES      | チャンネル名 |
 
-## テーブル名： timeframes
+### time_slots テーブル：
 
-| カラム名   | データ型   | NULL | キー     | 初期値 | AUTO INCREMENT |
-| ---------- | ---------- | ---- | -------- | ------ | -------------- |
-| id         | bigint(20) |      | PRIMARY  |        | YES            |
-| channel_id | bigint(20) |      | INDEX,FK |        |                |
-| start_time | datetime   |      |          |        |                |
+| カラム名   | データ型 | NULL許容 | 備考        |
+| ---------- | -------- | -------- | ----------- |
+| id         | int(11)  | NO       | PRIMARY KEY |
+| start_time | time     | NO       | 開始時刻    |
+| end_time   | time     | NO       | 終了時刻    |
 
-- 外部キー制約: channelsテーブルのidカラムに対して設定
+### programs テーブル：
 
-## テーブル名： programs
+| カラム名   | データ型     | NULL許容 | 備考                                                                     |
+| ---------- | ------------ | -------- | ------------------------------------------------------------------------ |
+| id         | int(11)      | NO       | PRIMARY KEY                                                              |
+| title      | varchar(255) | NO       | プログラム名                                                             |
+| detail     | text         | YES      | 詳細情報                                                                 |
+| channel_id | int(11)      | NO       | channelsテーブルのidと外部キー関連、ON DELETE CASCADE, ON UPDATE CASCADE |
 
-| カラム名 | データ型     | NULL | キー    | 初期値 | AUTO INCREMENT |
-| -------- | ------------ | ---- | ------- | ------ | -------------- |
-| id       | bigint(20)   |      | PRIMARY |        | YES            |
-| title    | varchar(255) |      |         |        |                |
-| detail   | text         | YES  |         |        |                |
+### program_time_slots テーブル：
 
-## テーブル名： genres
+| カラム名     | データ型 | NULL許容 | 備考                                                    |
+| ------------ | -------- | -------- | ------------------------------------------------------- |
+| program_id   | int(11)  | NO       | programsテーブルのidと外部キー関連、ON DELETE CASCADE   |
+| time_slot_id | int(11)  | NO       | time_slotsテーブルのidと外部キー関連、ON DELETE CASCADE |
 
-| カラム名 | データ型     | NULL | キー    | 初期値 | AUTO INCREMENT |
-| -------- | ------------ | ---- | ------- | ------ | -------------- |
-| id       | bigint(20)   |      | PRIMARY |        | YES            |
-| name     | varchar(255) |      | UNIQUE  |        |                |
+### genres テーブル：
 
-- ユニークキー制約：nameカラムに対して設定
+| カラム名 | データ型     | NULL許容 | 備考        |
+| -------- | ------------ | -------- | ----------- |
+| id       | int(11)      | NO       | PRIMARY KEY |
+| name     | varchar(255) | NO       | ジャンル名  |
 
-## テーブル名： program_genres
+### program_genres テーブル：
 
-| カラム名   | データ型   | NULL | キー     | 初期値 | AUTO INCREMENT |
-| ---------- | ---------- | ---- | -------- | ------ | -------------- |
-| id         | bigint(20) |      | PRIMARY  |        | YES            |
-| program_id | bigint(20) |      | INDEX,FK |        |                |
-| genre_id   | bigint(20) |      | INDEX,FK |        |                |
-
-- 外部キー制約：programsテーブルのidカラムに対して設定
-- 外部キー制約：genresテーブルのidカラムに対して設定
-
-## テーブル名： episodes
-
-| カラム名      | データ型   | NULL | キー     | 初期値 | AUTO INCREMENT |
-| ------------- | ---------- | ---- | -------- | ------ | -------------- |
-| id            | bigint(20) |      | PRIMARY  |        | YES            |
-| program_id    | bigint(20) |      | INDEX,FK |        |                |
-| season_number | int(11)    | YES  |          |
+| カラム名   | データ型 | NULL許容 | 備考                                                                     |
+| ---------- | -------- | -------- | ------------------------------------------------------------------------ |
+| program_id | int(11)  | NO       | programsテーブルのidと外部キー関連、ON DELETE CASCADE, ON UPDATE CASCADE |
+| genre_id   | int(11)  | NO       | genresテーブルのidと外部キー関連、ON DELETE CASCADE, ON UPDATE CASCADE   |
