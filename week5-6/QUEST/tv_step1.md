@@ -105,8 +105,3 @@
 | genre_id   | int(11)  | NO       | genresテーブルのidと外部キー関連、ON DELETE CASCADE, ON UPDATE CASCADE   |
 </details>
 <br>
-
-
-step.2
-<br>
-step.3
