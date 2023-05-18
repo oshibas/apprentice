@@ -99,6 +99,5 @@
 | program_id | int(11)  | NO       |      |        |                |
 | genre_id   | int(11)  | NO       |      |        |                |
 
-上記のテーブルのカラム名、データ型、NULL許容、キー、初期値、およびAUTO_INCREMENTの設定を変更しました。AUTO_INCREMENTはYESとなっています。
 </details>
 <br>
