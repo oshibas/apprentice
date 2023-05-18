@@ -86,8 +86,6 @@
 - 手順を人が同じように行えるようにまとめることで、ドキュメントコミュニケーション力を上げること
 </details>
 <br>
-<hr>
-<br>
 
 ## 1: データベースの構築
 
@@ -98,8 +96,6 @@
 ```sql
 CREATE DATABASE internet_tv;
 ```
-<br>
-<hr>
 <br>
 
 ## 2: テーブルの作成
@@ -160,8 +156,6 @@ INSERT INTO program_genres (program_id, genre_id) VALUES
 ```
 </details>
 <br>
-<hr>
-<br>
 
 ## 3: サンプルデータを挿入
 
@@ -221,8 +215,6 @@ INSERT INTO program_genres (program_id, genre_id) VALUES
 </details>
 
 <br>
-<hr>
-<br>
 
 # step.3 データを抽出するクエリ
 
@@ -244,10 +236,6 @@ LIMIT 3;
 </details>
 
 <br>
-<hr>
-<br>
-
-
 
 > 2. よく見られているエピソードの番組情報やシーズン情報も合わせて知りたいです。
 <br>
@@ -269,9 +257,6 @@ LIMIT 3;
 - 上位3つを取得するSQLを実行。
 </details>
 <br>
-<hr>
-<br>
-
 
 > 3. 本日の番組表を表示するために、本日、どのチャンネルの、何時から、何の番組が放送されるのかを知りたいです。
 <br>
