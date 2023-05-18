@@ -221,11 +221,9 @@ INSERT INTO program_genres (program_id, genre_id) VALUES
 ```
 
 </details>
-
 <br>
 
 # step.3 データを抽出するクエリ
-
 
 > 1. よく見られているエピソードを知りたいです。エピソード視聴数トップ3のエピソードタイトルと視聴数を取得してください。
 <br>
