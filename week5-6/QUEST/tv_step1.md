@@ -24,6 +24,7 @@
 
 <details>
 <summary><b>テーブル設計の仕様</b></summary>
+
 テーブルごとにテーブル名、カラム名、データ型、NULL(NULL OK の場合のみ YES と記載)、キー（キーが存在する場合、PRIMARY/INDEX のどちらかを記載）、初期値（ある場合のみ記載）、AUTO INCREMENT（ある場合のみ YES と記載）を記載してください。また、外部キー制約、ユニークキー制約に関しても記載してください。
 
 その際に、少なくとも次のことは満たしてください。
@@ -59,49 +60,45 @@
 <details>
 <summary><b>テーブル設計の詳細</b></summary>
 
-### channels テーブル：
+## channelsテーブル：
+| カラム名 | データ型     | NULL許容 | キー        | 初期値 | AUTO_INCREMENT |
+| -------- | ------------ | -------- | ----------- | ------ | -------------- |
+| id       | int(11)      | NO       | PRIMARY KEY |        | YES            |
+| name     | varchar(255) | YES      |             |        |                |
 
-| カラム名 | データ型     | NULL許容 | 備考         |
-| -------- | ------------ | -------- | ------------ |
-| id       | int(11)      | NO       | PRIMARY KEY  |
-| name     | varchar(255) | YES      | チャンネル名 |
+## time_slotsテーブル：
+| カラム名   | データ型 | NULL許容 | キー        | 初期値 | AUTO_INCREMENT |
+| ---------- | -------- | -------- | ----------- | ------ | -------------- |
+| id         | int(11)  | NO       | PRIMARY KEY |        | YES            |
+| start_time | time     | NO       |             |        |                |
+| end_time   | time     | NO       |             |        |                |
 
-### time_slots テーブル：
+## programsテーブル：
+| カラム名   | データ型     | NULL許容 | キー        | 初期値 | AUTO_INCREMENT |
+| ---------- | ------------ | -------- | ----------- | ------ | -------------- |
+| id         | int(11)      | NO       | PRIMARY KEY |        | YES            |
+| title      | varchar(255) | NO       |             |        |                |
+| detail     | text         | YES      |             |        |                |
+| channel_id | int(11)      | NO       |             |        |                |
 
-| カラム名   | データ型 | NULL許容 | 備考        |
-| ---------- | -------- | -------- | ----------- |
-| id         | int(11)  | NO       | PRIMARY KEY |
-| start_time | time     | NO       | 開始時刻    |
-| end_time   | time     | NO       | 終了時刻    |
+## program_time_slotsテーブル：
+| カラム名     | データ型 | NULL許容 | キー | 初期値 | AUTO_INCREMENT |
+| ------------ | -------- | -------- | ---- | ------ | -------------- |
+| program_id   | int(11)  | NO       |      |        |                |
+| time_slot_id | int(11)  | NO       |      |        |                |
 
-### programs テーブル：
+## genresテーブル：
+| カラム名 | データ型     | NULL許容 | キー        | 初期値 | AUTO_INCREMENT |
+| -------- | ------------ | -------- | ----------- | ------ | -------------- |
+| id       | int(11)      | NO       | PRIMARY KEY |        | YES            |
+| name     | varchar(255) | NO       |             |        |                |
 
-| カラム名   | データ型     | NULL許容 | 備考                                                                     |
-| ---------- | ------------ | -------- | ------------------------------------------------------------------------ |
-| id         | int(11)      | NO       | PRIMARY KEY                                                              |
-| title      | varchar(255) | NO       | プログラム名                                                             |
-| detail     | text         | YES      | 詳細情報                                                                 |
-| channel_id | int(11)      | NO       | channelsテーブルのidと外部キー関連、ON DELETE CASCADE, ON UPDATE CASCADE |
+## program_genresテーブル：
+| カラム名   | データ型 | NULL許容 | キー | 初期値 | AUTO_INCREMENT |
+| ---------- | -------- | -------- | ---- | ------ | -------------- |
+| program_id | int(11)  | NO       |      |        |                |
+| genre_id   | int(11)  | NO       |      |        |                |
 
-### program_time_slots テーブル：
-
-| カラム名     | データ型 | NULL許容 | 備考                                                    |
-| ------------ | -------- | -------- | ------------------------------------------------------- |
-| program_id   | int(11)  | NO       | programsテーブルのidと外部キー関連、ON DELETE CASCADE   |
-| time_slot_id | int(11)  | NO       | time_slotsテーブルのidと外部キー関連、ON DELETE CASCADE |
-
-### genres テーブル：
-
-| カラム名 | データ型     | NULL許容 | 備考        |
-| -------- | ------------ | -------- | ----------- |
-| id       | int(11)      | NO       | PRIMARY KEY |
-| name     | varchar(255) | NO       | ジャンル名  |
-
-### program_genres テーブル：
-
-| カラム名   | データ型 | NULL許容 | 備考                                                                     |
-| ---------- | -------- | -------- | ------------------------------------------------------------------------ |
-| program_id | int(11)  | NO       | programsテーブルのidと外部キー関連、ON DELETE CASCADE, ON UPDATE CASCADE |
-| genre_id   | int(11)  | NO       | genresテーブルのidと外部キー関連、ON DELETE CASCADE, ON UPDATE CASCADE   |
+上記のテーブルのカラム名、データ型、NULL許容、キー、初期値、およびAUTO_INCREMENTの設定を変更しました。AUTO_INCREMENTはYESとなっています。
 </details>
 <br>
