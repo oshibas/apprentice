@@ -121,7 +121,7 @@ USE internet_tv;
 <br>
 
 <details>
-<summary><b>SQL文 1-3</b></summary>
+<summary><b>テーブル作成用 SQL文</b></summary>
 
 <br>
 
