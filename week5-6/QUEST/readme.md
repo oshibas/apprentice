@@ -89,9 +89,8 @@
 
 ## 1: データベースの構築
 
-- MySQLサーバーにログインします。
-- 次に、新しいデータベースを作成します。
-- ターミナルで以下のコマンドを実行します。
+- MySQLサーバーにログイン。
+- 新しいデータベースを作成。ターミナルで以下のコマンドを実行。
 
 ```sql
 CREATE DATABASE internet_tv;
@@ -100,8 +99,8 @@ CREATE DATABASE internet_tv;
 
 ## 2: テーブルの作成
 
-- ステップ1で提供したSQLコードを使用してテーブルを作成します。
-- さきほど構築したデータベースを選択し、SQLコードを実行します。
+- ステップ1で提供したSQLコードを使用してテーブルを作成。
+- さきほど構築したデータベースを選択し、SQLコードを実行。
 
 ```sql
 USE internet_tv;
@@ -113,51 +112,58 @@ USE internet_tv;
 <summary><b>SQL文</b></summary>
 
 ```sql
-NSERT INTO channels (id, name) VALUES
-(1, 'NHK'),
-(2, 'NTV'),
-(3, 'TBS'),
-(4, 'Fuji TV'),
-(5, 'TV Asahi');
+-- channelsテーブル作成
+CREATE TABLE channels (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NULL,
+  PRIMARY KEY (id)
+);
 
-INSERT INTO time_slots (id, start_time, end_time) VALUES
-(1, '06:00:00', '06:30:00'),
-(2, '06:30:00', '07:00:00'),
-(3, '07:00:00', '07:30:00'),
-...
-(n-1, n-1 * ':30:00', n * ':30:00'),
-(n, n * ':30:00', n+1 * ':30:00');
+-- time_slotsテーブル作成
+CREATE TABLE time_slots (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+  PRIMARY KEY (id)
+);
 
-INSERT INTO programs (id, title, detail, channel_id) VALUES
-(1, 'NHKニュースおはよう日本（前半）', '最新のニュースや気象情報などをお伝えします。', 1),
-...
-(m-1, 'ドラゴンボール超（再）', '孫悟空と仲間たちが宇宙の平和を守るために戦うアニメ。第1話「平和の報酬 一億ゼニーは誰の手に!?」', 4),
-(m, 'クレヨンしんちゃん（新）', '野原しんのすけとその家族や友人たちの日常を描くギャグアニメ。第1109話「ひまわりとお花見」', 5);
+-- programsテーブル作成
+CREATE TABLE programs (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  detail TEXT NULL,
+  channel_id INT(11) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (channel_id) REFERENCES channels (id) ON DELETE CASCADE
+);
 
-INSERT INTO program_time_slots (program_id, time_slot_id) VALUES
-(1, 1),
-...
-(m-1, n-2),
-(m, n-1);
+-- program_time_slotsテーブル作成
+CREATE TABLE program_time_slots (
+  program_id INT(11) NOT NULL,
+  time_slot_id INT(11) NOT NULL,
+  FOREIGN KEY (program_id) REFERENCES programs (id) ON DELETE CASCADE,
+  FOREIGN KEY (time_slot_id) REFERENCES time_slots (id) ON DELETE CASCADE
+);
 
-INSERT INTO genres (id, name) VALUES
-(1, 'ニュース'),
-(2, '情報番組'),
-(3, 'ドラマ'),
-...
-(k-1, 'アニメ'),
-(k, '映画');
+-- genresテーブル作成
+CREATE TABLE genres (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
 
-INSERT INTO program_genres (program_id, genre_id) VALUES
-(1, 1),
-...
-(m-1, k-1),
-(m, k-1);
+-- program_genresテーブル作成
+CREATE TABLE program_genres (
+  program_id INT(11) NOT NULL,
+  genre_id INT(11) NOT NULL,
+  FOREIGN KEY (program_id) REFERENCES programs (id) ON DELETE CASCADE,
+  FOREIGN KEY (genre_id) REFERENCES genres (id) ON DELETE CASCADE
+);
 ```
 </details>
 <br>
 
-## 3: サンプルデータを挿入
+## 3: サンプルデータの挿入
 
 - 次に、サンプルデータを挿入します。
 
@@ -165,28 +171,31 @@ INSERT INTO program_genres (program_id, genre_id) VALUES
 <summary><b>サンプルデータ</b></summary>
 
 ```sql
-INSERT INTO channels (id, name) VALUES
-(1, 'NHK'),
-(2, 'NTV'),
-(3, 'TBS'),
-(4, 'Fuji TV'),
-(5, 'TV Asahi');
+-- channelsテーブルにサンプルデータを挿入
+INSERT INTO channels (name) VALUES
+('ABEMA NEWS'),
+('ABEMA SPECIAL'),
+('ABEMA SPORTS'),
+('ABEMA DRAMA'),
+('ABEMA ANIME');
 
-INSERT INTO time_slots (id, start_time, end_time) VALUES
-(1, '06:00:00', '06:30:00'),
-(2, '06:30:00', '07:00:00'),
-(3, '07:00:00', '07:30:00'),
-(4, '07:30:00', '08:00:00'),
-(5, '08:00:00', '08:30:00'),
-(6, '08:30:00', '09:00:00');
+-- time_slotsテーブルにサンプルデータを挿入
+INSERT INTO time_slots (start_time, end_time) VALUES
+('08:00:00', '08:30:00'),
+('08:30:00', '09:00:00'),
+('09:00:00', '09:30:00'),
+('09:30:00', '10:00:00'),
+('10:00:00', '10:30:00');
 
-INSERT INTO programs (id, title, detail, channel_id) VALUES
-(1, 'NHKニュースおはよう日本（前半）', '最新のニュースや気象情報などをお伝えします。', 1),
-(2, 'NNNドキュメント72時間', '日本全国の様々な場所やテーマを取材するドキュメンタリー番組。', 2),
-(3, 'ひるおび！', 'ニュース、天気予報、スポーツなどを扱う情報番組。', 3),
-(4, '総力報道！THE NEWS', 'ニュースや経済情報、芸能情報などを扱う報道番組。', 4),
-(5, '報道ステーション', '日本の政治、社会、経済、科学、文化、芸能などに関する最新のニュースを扱う報道番組。', 5);
+-- programsテーブルにサンプルデータを挿入
+INSERT INTO programs (title, detail, channel_id) VALUES
+('ABEMA NEWS MORNING', '朝の最新ニュースをお届けします。', 1),
+('ABEMA SPECIAL DOCUMENTARY', '感動的なドキュメンタリー番組です。', 2),
+('ABEMA SPORTS HIGHLIGHTS', 'スポーツのハイライト映像をお楽しみください。', 3),
+('ABEMA DRAMA SERIES', 'ドラマシリーズの新エピソードです。', 4),
+('ABEMA ANIME SHORTS', '短編アニメをお楽しみください。', 5);
 
+-- program_time_slotsテーブルにサンプルデータを挿入
 INSERT INTO program_time_slots (program_id, time_slot_id) VALUES
 (1, 1),
 (2, 2),
@@ -194,22 +203,21 @@ INSERT INTO program_time_slots (program_id, time_slot_id) VALUES
 (4, 4),
 (5, 5);
 
-INSERT INTO genres (id, name) VALUES
-(1, 'ニュース'),
-(2, '情報番組'),
-(3, 'ドラマ'),
-(4, 'バラエティ'),
-(5, 'スポーツ'),
-(6, '音楽'),
-(7, 'アニメ'),
-(8, '映画');
+-- genresテーブルにサンプルデータを挿入
+INSERT INTO genres (name) VALUES
+('ニュース'),
+('ドキュメンタリー'),
+('スポーツ'),
+('ドラマ'),
+('アニメ');
 
+-- program_genresテーブルにサンプルデータを挿入
 INSERT INTO program_genres (program_id, genre_id) VALUES
 (1, 1),
 (2, 2),
-(3, 2),
-(4, 1),
-(5, 1);
+(3, 3),
+(4, 4),
+(5, 5);
 ```
 
 </details>

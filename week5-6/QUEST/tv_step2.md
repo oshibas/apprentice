@@ -19,8 +19,6 @@
 - 手順を人が同じように行えるようにまとめることで、ドキュメントコミュニケーション力を上げること
 </details>
 <br>
-<hr>
-<br>
 
 ## 1: データベースの構築
 
@@ -156,7 +154,4 @@ INSERT INTO program_genres (program_id, genre_id) VALUES
 ```
 
 </details>
-
-<br>
-<hr>
 <br>
