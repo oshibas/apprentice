@@ -239,6 +239,7 @@ LIMIT 3;
 
 - エピソード視聴数トップ3の番組タイトル、シーズン数、エピソード数、エピソードタイトル、視聴数を取得してください。
 <br>
+
 ```sql
 SELECT programs.title, seasons.season_number, episodes.episode_number, episodes.episode_title, episodes.views
 FROM programs
