@@ -225,7 +225,6 @@ INSERT INTO program_genres (program_id, genre_id) VALUES
 (5, 5);
 ```
 
-</details>
 <br>
 
 # step.3 データを抽出するクエリ
