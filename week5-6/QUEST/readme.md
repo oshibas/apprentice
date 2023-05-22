@@ -376,31 +376,37 @@ ORDER BY 列名 [ASC | DESC];
 <br>
 
 ```sql
-SELECT programs.title, seasons.season_number, episodes.episode_number, episodes.episode_title, episodes.views
-FROM programs
-INNER JOIN seasons ON programs.program_id = seasons.program_id
-INNER JOIN episodes ON seasons.season_id = episodes.season_id
-ORDER BY episodes.views DESC
+SELECT
+    programs.title AS program_title,
+    seasons.season_number,
+    episodes.episode_number,
+    episodes.episode_title,
+    viewership.viewership AS episode_views
+FROM
+    programs
+    JOIN seasons ON programs.id = seasons.program_id
+    JOIN episodes ON seasons.id = episodes.season_id
+    JOIN viewership ON episodes.id = viewership.episode_id
+ORDER BY
+    viewership.viewership DESC
 LIMIT 3;
 ```
 
-- episodes テーブルと関連するテーブル（seasons と programs）を結合しています。
-- 結果には、番組のタイトル、シーズン数、エピソード数、エピソードのタイトル、視聴数が含まれます。
-- INNER JOIN 句を使用してテーブルを結合
-- ORDER BY 句で視聴数の降順でソート
-- LIMIT 句で上位3つの結果を制限
+#### SELECT句:
+- programs.title AS program_title: programsテーブルのtitleカラムをprogram_titleという別名で表示。
+- viewership.viewership AS episode_views: viewershipテーブルのviewershipカラムをepisode_viewsという別名で表示。
 
-### INNER JOIN
-- クエリで複数のテーブル間の関連データを結合するために使用される結合操作。
-- INNER JOINを使用することで、結合条件に一致する行のみを結合した結果を取得できます。
-```sql
-SELECT 列名1, 列名2, ...
-FROM テーブル1
-INNER JOIN テーブル2 ON 結合条件;
-```
-- 列名1, 列名2, ...: 取得する列の名前
-- テーブル1, テーブル2: 結合するテーブルの名前
-- 結合条件: 結合するテーブル間の関連条件。通常、テーブル間の共有カラムを指定。
+#### FROM句:
+- programs: programsテーブルをメインのテーブルとして指定。
+
+#### JOIN句:
+- JOIN seasons ON programs.id = seasons.program_id: programsテーブルのidカラムとseasonsテーブルのprogram_idカラムを結合条件として指定。
+- JOIN episodes ON seasons.id = episodes.season_id: seasonsテーブルのidカラムとepisodesテーブルのseason_idカラムを結合条件として指定。
+- JOIN viewership ON episodes.id = viewership.episode_id: episodesテーブルのidカラムとviewershipテーブルのepisode_idカラムを結合条件として指定。
+
+#### ORDER BY句:
+- viewership.viewership DESC: viewershipテーブルのviewershipカラムを降順でソート。
+
 <br>
 
 #### 3. 本日の番組表を表示するために、本日、どのチャンネルの、何時から、何の番組が放送されるのかを知りたいです。
@@ -416,13 +422,30 @@ INNER JOIN テーブル2 ON 結合条件;
   INNER JOIN episodes ON seasons.season_id = episodes.season_id
   WHERE DATE(programs.start_time) = CURDATE()
   ORDER BY programs.start_time;
-
 ```
 
-- 番組の詳細な情報を取得: channels テーブルと programs テーブル、それらに関連する seasons テーブルと episodes テーブルを結合しています。
-- SELECT 句で、取得したい情報を指定: チャンネル名、番組の開始時刻、終了時刻、シーズン数、エピソード数、エピソードのタイトル、エピソードの詳細が含まれます。
-- WHERE 句: 番組の開始時刻が本日の日付 (CURDATE()) と一致するものをフィルタリング。本日放送される番組のみが結果に含まれます。
-- ORDER BY 句: 番組の開始時刻で結果を昇順にソートしています。
+- FROM句:テーブルの結合順序を指定。
+- channelsテーブルとprogramsテーブルをINNER JOINで結合しています。結合条件はchannels.id = programs.channel_idで、チャンネルIDを使用してチャンネル名と番組情報を関連付けています。
+
+- programsテーブルとseasonsテーブルをINNER JOINで結合。結合条件はprograms.id = seasons.program_idで、番組IDを使用して番組とシーズン情報を関連付けています。
+
+- seasonsテーブルとepisodesテーブルをINNER JOINで結合。結合条件はseasons.id = episodes.season_idで、シーズンIDを使用してシーズンとエピソード情報を関連付けています。
+
+- WHERE句: 番組の開始時刻が本日のものとなるように条件を指定しています。DATE(programs.start_time) = CURDATE()という条件は、programsテーブルの開始時刻が現在の日付 (CURDATE()) と一致する番組のみを選択します。
+
+- ORDER BY句: 結果の並び順を番組の開始時刻でソート。
+
+#### INNER JOIN
+- クエリで複数のテーブル間の関連データを結合するために使用される結合操作。
+- INNER JOINを使用することで、結合条件に一致する行のみを結合した結果を取得できます。
+```sql
+SELECT 列名1, 列名2, ...
+FROM テーブル1
+INNER JOIN テーブル2 ON 結合条件;
+```
+- 列名1, 列名2, ...: 取得する列の名前
+- テーブル1, テーブル2: 結合するテーブルの名前
+- 結合条件: 結合するテーブル間の関連条件。通常、テーブル間の共有カラムを指定。
 
 ### WHERE句
 - 条件を指定して、その条件に一致する行のみを結果に含めます。
@@ -483,24 +506,26 @@ ORDER BY
 
 ```sql
 SELECT
-    program.title,
-    SUM(viewership.episode_views) AS total_views
+    p.title AS program_title,
+    SUM(v.viewership) AS total_views
 FROM
-    program
-    JOIN viewership ON program.id = viewership.program_id
+    programs p
+    JOIN viewership v ON p.id = v.program_id
 WHERE
-    program.start_time >= DATE_SUB(NOW(), INTERVAL 1 WEEK)
+    p.start_time >= DATE_SUB(NOW(), INTERVAL 1 WEEK)
 GROUP BY
-    program.id
+    p.id
 ORDER BY
     total_views DESC
 LIMIT 2;
-
 ```
 
-- programテーブルとviewershipテーブルを結合して、直近一週間に放送された番組のうち、エピソード視聴数合計がトップ2の番組を取得。
-- 番組タイトルと視聴数のみが取得される。
-- 番組タイトルで降順にソート。
+- programs テーブルと viewership テーブルを結合。番組と視聴数データが関連付けられます。
+- p.title AS program_title: 番組のタイトルを表すカラムのエイリアス（別名）。結果のカラム名をわかりやすく。
+- v.viewership: 視聴数データのカラムを表しています。SUM() 関数を使って、各番組の視聴数を合計します。
+- p.start_time >= DATE_SUB(NOW(), INTERVAL 1 WEEK): 番組の開始時間が直近一週間以内である条件。
+- GROUP BY p.id: 番組IDごとにグループ化して、視聴数をまとめています。
+- ORDER BY total_views DESC: 視聴数の合計を降順に並び替えます。
 
 <br>
 
@@ -513,38 +538,58 @@ LIMIT 2;
 
 ```sql
 SELECT
-    program.genre,
-    program.title,
-    AVG(viewership.episode_views) AS avg_views
+    g.name AS genre_name,
+    p.title AS program_title,
+    AVG(v.episode_views) AS average_views
 FROM
-    program
-    JOIN viewership ON program.id = viewership.program_id
+    programs p
+    JOIN program_genres pg ON p.id = pg.program_id
+    JOIN genres g ON pg.genre_id = g.id
+    JOIN viewership v ON p.id = v.program_id
 GROUP BY
-    program.id,
-    program.genre
+    g.id,
+    p.id,
+    g.name,
+    p.title
 HAVING
-    AVG(viewership.episode_views) = (
+    AVG(v.episode_views) = (
         SELECT
-            MAX(avg_views)
+            MAX(average_views)
         FROM
             (
                 SELECT
-                    program.genre,
-                    program.id,
-                    AVG(viewership.episode_views) AS avg_views
+                    AVG(viewership.episode_views) AS average_views
                 FROM
-                    program
-                    JOIN viewership ON program.id = viewership.program_id
+                    programs p
+                    JOIN program_genres pg ON p.id = pg.program_id
+                    JOIN genres g ON pg.genre_id = g.id
+                    JOIN viewership v ON p.id = v.program_id
                 GROUP BY
-                    program.id,
-                    program.genre
-
-
+                    p.id,
+                    g.id
+            ) AS subquery
+    );
 ```
-- programテーブルとviewershipテーブルをJOINし、番組のIDとジャンル、およびエピソードごとの視聴数を取得。
-- GROUP BYを使用して、番組のIDとジャンルごとにグループ化し、エピソードの平均視聴数を計算。
-- HAVINGを使用して、各ジャンルごとに最も高い平均視聴数を持つ番組のみを選択。
-- サブクエリを使用して、最大平均視聴数を計算し、その値に一致する番組を選択。
-- 選択された番組のジャンル、タイトル、およびエピソードの平均視聴数を取得。
+- 最初のSELECT文: 表示するカラムとそのエイリアスを指定しています。
+- g.name AS genre_name => ジャンル名
+- p.title AS program_title => 番組タイトル
+- AVG(v.episode_views) AS average_views => エピソードの平均視聴数
 
+- FROM句: 番組情報を表すprogramsテーブルとジャンル情報を表すgenresテーブル、番組とジャンルの関連付けを表すprogram_genresテーブル、視聴数情報を表すviewershipテーブルを結合。
+
+- GROUP BY句: ジャンルID (g.id) と番組ID (p.id) でグループ化。ジャンルごとの番組の平均視聴数を計算します。
+
+- HAVING句: 平均視聴数が最大値と等しい結果のみを抽出。内部のサブクエリによって、全体のクエリから最大の平均視聴数を持つ結果が選択されます。
+
+#### HAVING句
+グループ化された結果に対して条件を適用するために使用されるSQLの句。一般的に、WHERE句は個々の行に対して条件を適用するのに対し、HAVING句はグループに対して条件を適用。
+
+HAVING句の条件式
+```sql
+AVG(v.episode_views) = (SELECT MAX(average_views) FROM ...)
+```
+- この条件式では、平均視聴数 (AVG(v.episode_views)) がサブクエリの結果と等しいかどうかを比較。
+- サブクエリは、番組とジャンルの結合を含む内部のSELECT文。番組ごとに平均視聴数を計算し、最大の平均視聴数 (MAX(average_views)) を求めています。
+
+- HAVING句によって、全体のクエリ結果から平均視聴数が最大値と等しい結果のみを抽出することができます。
 </details>
