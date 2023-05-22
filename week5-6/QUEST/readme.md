@@ -24,6 +24,8 @@
 
 # step.1 テーブル設計
 
+シリーズ、視聴率の表示枠/viewership
+
 <details>
 <summary><b>テーブル設計を見る</b></summary>
 
@@ -34,7 +36,7 @@
 | カラム名 | データ型     | NULL許容 | キー        | 初期値 | AUTO_INCREMENT |
 | -------- | ------------ | -------- | ----------- | ------ | -------------- |
 | id       | int(11)      | NO       | PRIMARY KEY |        | YES            |
-| name     | varchar(255) | YES      |             |        |                |
+| name     | varchar(255) | NO       |             |        |                |
 
 ## time_slotsテーブル：
 - 番組の放送時間帯を表します。
@@ -86,6 +88,31 @@
 | program_id | int(11)  | NO       |      |        |                |
 | genre_id   | int(11)  | NO       |      |        |                |
 
+## seasons テーブル:
+- program_id: シーズンが所属する番組を識別するための外部キー（異なるテーブル間の関連性を定義するために使用されるキー）です。programsテーブルのidカラムと関連付けられます。
+- number: シーズンの番号を表します。
+
+| カラム名   | データ型 | NULL許容 | キー        | 初期値 | AUTO_INCREMENT |
+| ---------- | -------- | -------- | ----------- | ------ | -------------- |
+| id         | int(11)  | NO       | PRIMARY KEY |        | YES            |
+| program_id | int(11)  | NO       |             |        |                |
+| number     | int(11)  | NO       |             |        |                |
+
+## viewership テーブル:
+
+- episode_id: エピソードを識別するための外部キー。エピソードテーブルの id カラムと関連付けられます。
+- channel_id: チャンネルを識別するための外部キー。チャンネルテーブルの id カラムと関連付けられます。
+- time_slot_id: 番組枠を識別するための外部キー。番組枠テーブルの id カラムと関連付けられます。
+- viewership: エピソードの視聴数を表す整数値です。初期値として0が設定されています。
+
+| カラム名     | データ型 | NULL許容 | キー        | 初期値 | AUTO_INCREMENT |
+| ------------ | -------- | -------- | ----------- | ------ | -------------- |
+| id           | int(11)  |          | PRIMARY KEY |        | YES            |
+| episode_id   | int(11)  |          |             |        |                |
+| channel_id   | int(11)  |          |             |        |                |
+| time_slot_id | int(11)  |          |             |        |                |
+| viewership   | INT      |          |             | 0      |                |
+
 </details>
 
 <br>
@@ -129,14 +156,12 @@ CREATE DATABASE internet_tv;
 
 ## 2: テーブルの作成
 
-- ステップ1で提供したSQLコードを使用してテーブルを作成。
-- さきほど構築したデータベースを選択し、SQLコードを実行。
-
+- ステップ1で作成したデータベースを選択。
 ```sql
 USE internet_tv;
 ```
 
-- その後、各テーブル作成用のSQL文を実行します。
+- その後、各テーブル作成用のSQL文を実行。
 
 <br>
 
@@ -193,6 +218,26 @@ CREATE TABLE program_genres (
   FOREIGN KEY (program_id) REFERENCES programs (id) ON DELETE CASCADE,
   FOREIGN KEY (genre_id) REFERENCES genres (id) ON DELETE CASCADE
 );
+
+-- seasonsテーブル作成
+CREATE TABLE seasons (
+  id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  program_id INT(11) NOT NULL,
+  number INT(11) NOT NULL,
+  FOREIGN KEY (program_id) REFERENCES programs(id)
+);
+
+-- viewershipテーブル作成
+CREATE TABLE viewership (
+  id INT(11) PRIMARY KEY AUTO_INCREMENT,
+  episode_id INT(11),
+  channel_id INT(11),
+  time_slot_id INT(11),
+  viewership INT DEFAULT 0,
+  FOREIGN KEY (episode_id) REFERENCES episodes(id),
+  FOREIGN KEY (channel_id) REFERENCES channels(id),
+  FOREIGN KEY (time_slot_id) REFERENCES time_slots(id)
+);
 ```
 
 </details>
@@ -201,7 +246,23 @@ CREATE TABLE program_genres (
 
 ## 3: サンプルデータの挿入
 
-- 次に、サンプルデータを挿入します。
+次に、サンプルデータを挿入します。
+
+### データを挿入する順序：
+
+- データを挿入する際には、外部キー制約を考慮する必要があります。
+- 外部キー制約がある場合、関連するテーブルのデータを先に挿入します。
+- 例えば、"viewership" テーブルの "episode_id" カラムは "episodes" テーブルの外部キーとして定義されています。
+
+1. channelsテーブル
+2. time_slotsテーブル
+3. programsテーブル
+4. genresテーブル
+5. seasonsテーブル
+6. episodesテーブル
+7. program_time_slotsテーブル
+8. program_genresテーブル
+9. viewershipテーブル
 
 <details>
 <summary><b>サンプルデータ</b></summary>
@@ -254,6 +315,22 @@ INSERT INTO program_genres (program_id, genre_id) VALUES
 (3, 3),
 (4, 4),
 (5, 5);
+
+-- seasonsテーブルにサンプルデータを挿入
+INSERT INTO seasons (program_id, number) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(3, 1),
+(3, 2);
+
+-- viewershipテーブルにサンプルデータを挿入
+INSERT INTO viewership (episode_id, channel_id, time_slot_id, viewership) VALUES
+(1, 1, 1, 1000),
+(2, 2, 2, 500),
+(3, 3, 3, 1500),
+(4, 4, 4, 800),
+(5, 5, 5, 1200);
 ```
 
 </details>
@@ -275,6 +352,21 @@ FROM episodes
 ORDER BY views DESC
 LIMIT 3;
 ```
+- episodes テーブルからエピソードのタイトルと視聴数を取得します。
+- SELECT 文は取得する列を指定します。
+- ORDER BY 句を使用して視聴数の降順でソートし、LIMIT 句を使って上位3つの結果に制限しています。
+
+
+### ORDER BY句
+
+- ORDER BY句は、SELECT文の最後に記述します。
+- 指定したカラムの値に基づいて結果を昇順（ASC/デフォルト）または降順（DESC）で並び替えます。
+
+```sql
+SELECT 列名1, 列名2, ...
+FROM テーブル名
+ORDER BY 列名 [ASC | DESC];
+```
 
 <br>
 
@@ -292,8 +384,23 @@ ORDER BY episodes.views DESC
 LIMIT 3;
 ```
 
-- エピソードテーブルからエピソードタイトルと視聴数を取得し、視聴数の降順でソート。
-- 上位3つを取得するSQLを実行。
+- episodes テーブルと関連するテーブル（seasons と programs）を結合しています。
+- 結果には、番組のタイトル、シーズン数、エピソード数、エピソードのタイトル、視聴数が含まれます。
+- INNER JOIN 句を使用してテーブルを結合
+- ORDER BY 句で視聴数の降順でソート
+- LIMIT 句で上位3つの結果を制限
+
+### INNER JOIN
+- クエリで複数のテーブル間の関連データを結合するために使用される結合操作。
+- INNER JOINを使用することで、結合条件に一致する行のみを結合した結果を取得できます。
+```sql
+SELECT 列名1, 列名2, ...
+FROM テーブル1
+INNER JOIN テーブル2 ON 結合条件;
+```
+- 列名1, 列名2, ...: 取得する列の名前
+- テーブル1, テーブル2: 結合するテーブルの名前
+- 結合条件: 結合するテーブル間の関連条件。通常、テーブル間の共有カラムを指定。
 <br>
 
 #### 3. 本日の番組表を表示するために、本日、どのチャンネルの、何時から、何の番組が放送されるのかを知りたいです。
@@ -311,6 +418,27 @@ LIMIT 3;
   ORDER BY programs.start_time;
 
 ```
+
+- 番組の詳細な情報を取得: channels テーブルと programs テーブル、それらに関連する seasons テーブルと episodes テーブルを結合しています。
+- SELECT 句で、取得したい情報を指定: チャンネル名、番組の開始時刻、終了時刻、シーズン数、エピソード数、エピソードのタイトル、エピソードの詳細が含まれます。
+- WHERE 句: 番組の開始時刻が本日の日付 (CURDATE()) と一致するものをフィルタリング。本日放送される番組のみが結果に含まれます。
+- ORDER BY 句: 番組の開始時刻で結果を昇順にソートしています。
+
+### WHERE句
+- 条件を指定して、その条件に一致する行のみを結果に含めます。
+```sql
+WHERE DATE(programs.start_time) = CURDATE()
+```
+- DATE(programs.start_time)はprograms.start_timeの日付部分を抽出し、CURDATE()は現在の日付を表します。
+- この条件はprograms.start_timeの日付が現在の日付（今日）と一致する行のみを抽出します。
+
+### ORDER BY句
+- 結果を特定の列で並び替えます。
+```sql
+ORDER BY programs.start_time
+```
+- programs.start_time列の値で昇順にソートします。
+- 番組の開始時刻が早い順に結果が並びます。
 <br>
 
 #### 4. ドラマというチャンネルがあったとして、ドラマのチャンネルの番組表を表示するために、本日から一週間分、何日の何時から何の番組が放送されるのかを知りたいです。
@@ -336,8 +464,10 @@ ORDER BY
     program.start_time ASC;
 
 ```
-- programテーブルから、チャンネルが「ドラマ」であり、開始時刻が本日以降の一週間分の番組を取得。
-- 番組表は開始時刻で昇順にソート。
+- channels テーブルと programs テーブル、それらに関連する seasons テーブルと episodes テーブルを結合しています。
+- 結果には、ドラマチャンネルの番組の開始時刻、終了時刻、シーズン数、エピソード数、エピソードのタイトル、およびエピソードの詳細が含まれます。
+- クエリの条件として、channels.name が 'ドラマ' であり、番組の開始時刻が本日以上かつ一週間以内であることを指定しています。
+- 結果は番組の開始時刻で昇順にソートされます。
 
 <br>
 
