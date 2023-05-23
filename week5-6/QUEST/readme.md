@@ -170,72 +170,83 @@ USE internet_tv;
 <br>
 
 ```sql
--- channelsテーブル作成
-CREATE TABLE channels (
+-- チャンネルテーブル
+CREATE TABLE IF NOT EXISTS channels (
   id INT(11) NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NULL,
+  name VARCHAR(255) NOT NULL,
   PRIMARY KEY (id)
 );
 
--- time_slotsテーブル作成
-CREATE TABLE time_slots (
+-- 番組テーブル
+CREATE TABLE IF NOT EXISTS programs (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  detail TEXT,
+  channel_id INT(11) NOT NULL,
+  PRIMARY KEY (id),
+  INDEX idx_channel_id (channel_id),
+  FOREIGN KEY (channel_id) REFERENCES channels (id)
+);
+
+-- タイムスロットテーブル
+CREATE TABLE IF NOT EXISTS time_slots (
   id INT(11) NOT NULL AUTO_INCREMENT,
   start_time TIME NOT NULL,
   end_time TIME NOT NULL,
   PRIMARY KEY (id)
 );
 
--- programsテーブル作成
-CREATE TABLE programs (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  title VARCHAR(255) NOT NULL,
-  detail TEXT NULL,
-  channel_id INT(11) NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (channel_id) REFERENCES channels (id) ON DELETE CASCADE
-);
-
--- program_time_slotsテーブル作成
-CREATE TABLE program_time_slots (
+-- 番組とタイムスロットの関連テーブル
+CREATE TABLE IF NOT EXISTS program_time_slots (
   program_id INT(11) NOT NULL,
   time_slot_id INT(11) NOT NULL,
-  FOREIGN KEY (program_id) REFERENCES programs (id) ON DELETE CASCADE,
-  FOREIGN KEY (time_slot_id) REFERENCES time_slots (id) ON DELETE CASCADE
+  INDEX idx_program_id (program_id),
+  INDEX idx_time_slot_id (time_slot_id),
+  FOREIGN KEY (program_id) REFERENCES programs (id),
+  FOREIGN KEY (time_slot_id) REFERENCES time_slots (id)
 );
 
--- genresテーブル作成
-CREATE TABLE genres (
+-- ジャンルテーブル
+CREATE TABLE IF NOT EXISTS genres (
   id INT(11) NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
   PRIMARY KEY (id)
 );
 
--- program_genresテーブル作成
-CREATE TABLE program_genres (
+-- 番組とジャンルの関連テーブル
+CREATE TABLE IF NOT EXISTS program_genres (
   program_id INT(11) NOT NULL,
   genre_id INT(11) NOT NULL,
-  FOREIGN KEY (program_id) REFERENCES programs (id) ON DELETE CASCADE,
-  FOREIGN KEY (genre_id) REFERENCES genres (id) ON DELETE CASCADE
+  INDEX idx_program_id (program_id),
+  INDEX idx_genre_id (genre_id),
+  FOREIGN KEY (program_id) REFERENCES programs (id),
+  FOREIGN KEY (genre_id) REFERENCES genres (id)
 );
 
--- seasonsテーブル作成
-CREATE TABLE seasons (
-  id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+-- シーズンテーブル
+CREATE TABLE IF NOT EXISTS seasons (
+  id INT(11) NOT NULL AUTO_INCREMENT,
   program_id INT(11) NOT NULL,
   number INT(11) NOT NULL,
-  FOREIGN KEY (program_id) REFERENCES programs(id)
+  PRIMARY KEY (id),
+  INDEX idx_program_id (program_id),
+  FOREIGN KEY (program_id) REFERENCES programs (id)
 );
 
--- viewershipテーブル作成
-CREATE TABLE viewership (
-  id INT(11) PRIMARY KEY AUTO_INCREMENT,
+-- 視聴数テーブル
+CREATE TABLE IF NOT EXISTS viewership (
+  id INT(11) NOT NULL AUTO_INCREMENT,
   episode_id INT(11),
   channel_id INT(11),
   time_slot_id INT(11),
   viewership INT DEFAULT 0,
-  FOREIGN KEY (episode_id) REFERENCES episodes(id),
-  FOREIGN KEY (channel_id) REFERENCES channels(id),
-  FOREIGN KEY (time_slot_id) REFERENCES time_slots(id)
+  PRIMARY KEY (id),
+  INDEX idx_episode_id (episode_id),
+  INDEX idx_channel_id (channel_id),
+  INDEX idx_time_slot_id (time_slot_id),
+  FOREIGN KEY (episode_id) REFERENCES episodes (id),
+  FOREIGN KEY (channel_id) REFERENCES channels (id),
+  FOREIGN KEY (time_slot_id) REFERENCES time_slots (id)
 );
 ```
 
