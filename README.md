@@ -29,19 +29,14 @@
 </details>
 <br>
 
-<hr><br>
+<hr>
 
 # week(課題)
 課題フォルダです。
 <br>
 2週間ごとに格納しています。
-<br>
-⚪️[week1-2](https://www.google.com/) - Ruby, OOP<br>
-⚪️[week3-4](https://www.google.com/) - Git/GitHub, Linux<br>
-⚪️[week5-6](https://www.google.com/) - SQL/DB
-<br>
 
-# [report(日報)](https://github.com/oshibas/apprentice/tree/main/report)
+# report(日報)
 日報フォルダです。
 <br>
 日々の学習内容などを書き留めています。
