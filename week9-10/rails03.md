@@ -14,6 +14,55 @@ TODO を管理できる「TODO アプリ」を作りながら学んでいきま�
 Rails の新規プロジェクトを作成してください。
 
 トップページにアクセスしたときに、ページが表示されることを確認してください。
+```
+【環境構築】
+まずは、ターミナルでパッケージのバージョンを確認しましょう。
+もしインストールされていなかったら必要に応じて準備してください。
+
+Ruby
+ruby --version
+
+SQLite3
+sqlite3 --version
+
+Node.js
+node --version
+
+yarn
+yarn --version
+
+Gem
+gem --version
+```
+
+新しいプロジェクトを作成します。ターミナルで以下のコマンドを実行します。
+
+
+
+```bash
+# "プロジェクト名"に任意の名前を指定します。（今回はtodoにしました！）
+rails new プロジェクト名
+
+# プロジェクトのディレクトリに移動します。
+cd プロジェクト名
+
+# ローカルサーバーを起動します。
+rails server
+
+```
+
+```
+Railsのサーバーを起動する際にエラーが発生
+
+rails server
+
+bin/rails:4:in `require_relative': cannot load such file -- /Users/ooshibasxxx/Library/todo/config/boot (LoadError)
+ブラウザを開き、http://localhost:3000 にアクセスします。
+
+bundle install
+
+
+```
 
 ## 2. テーブルの作成
 
