@@ -9,60 +9,52 @@ TODO を管理できる「TODO アプリ」を作りながら学んでいきま�
 
 なお、Scaffold 機能は使用しないでください。
 
-## 1. プロジェクトの作成
+<details><summary>プロジェクトの作成</summary><div>
 
-Rails の新規プロジェクトを作成してください。
+1. `bin/rails` ファイルを開きます。
+2. 以下のコードで `bin/rails` ファイルを修正します。
 
-トップページにアクセスしたときに、ページが表示されることを確認してください。
-```
-【環境構築】
-まずは、ターミナルでパッケージのバージョンを確認しましょう。
-もしインストールされていなかったら必要に応じて準備してください。
+```ruby
+#!/usr/bin/env ruby
+require 'pathname'
 
-Ruby
-ruby --version
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
-SQLite3
-sqlite3 --version
+pathname = Pathname.new(__dir__).realpath
 
-Node.js
-node --version
-
-yarn
-yarn --version
-
-Gem
-gem --version
+if pathname.parent.basename.to_s == 'bin'
+  ENV['RAILS_ENV'] ||= File.read(pathname.join('../.env')).chomp.downcase
+  require 'rubygems'
+  load Gem.bin_path('rails', 'rails')
+else
+  require_relative '../config/boot'
+  require 'rails/commands'
+end
 ```
 
-新しいプロジェクトを作成します。ターミナルで以下のコマンドを実行します。
-
-
-
-```bash
-# "プロジェクト名"に任意の名前を指定します。（今回はtodoにしました！）
-rails new プロジェクト名
-
-# プロジェクトのディレクトリに移動します。
-cd プロジェクト名
-
-# ローカルサーバーを起動します。
-rails server
+3. `bin/rails` ファイルに実行権限を与えます。
 
 ```
+chmod +x bin/rails
+```
+
+4. 以下のコマンドを実行して、`todos` テーブルのマイグレーションファイルを作成します。
 
 ```
-Railsのサーバーを起動する際にエラーが発生
+bundle exec rails generate migration CreateTodos
+```
 
-rails server
-
-bin/rails:4:in `require_relative': cannot load such file -- /Users/ooshibasxxx/Library/todo/config/boot (LoadError)
-ブラウザを開き、http://localhost:3000 にアクセスします。
-
-bundle install
-
+5. 以下のコマンドを実行して、マイグレーションを実行します。
 
 ```
+bundle exec rails db:migrate
+```
+
+これにより、`todos` テーブルが作成されます。
+
+</div></details>
+
+<br>
 
 ## 2. テーブルの作成
 
@@ -70,12 +62,104 @@ bundle install
 
 テーブルの作成にはマイグレーションを使用します。マイグレーションとは何か、マイグレーションを使用するメリットは何かを説明してください。
 
+
+<details><summary>マイグレーションとは？</summary><div>
+
+システムやデータを別の環境に移転したり、新しい環境に移行することです。
+
+Railsアプリケーションにおけるマイグレーションは、データベースの構造を変更する方法です。
+
+マイグレーションを使用するメリットは、以下の通りです。
+
+- 現行システム資源を有効利用することができるため、コストの抑制が期待できます。
+- 開発期間が短縮されるため、開発コストの削減が期待できます。
+- 移行手法によっては、システムの安全性が向上することがあります。
+
+
+例えば、あなたがToDoリストのアプリを作っていて、タスクを保存するためのデータベースを使いたいとします。
+
+1. マイグレーションファイルの生成: まず、ターミナルで以下のコマンドを実行してマイグレーションファイルを作成します。
+
+```
+rails generate migration CreateTodos
+```
+
+これにより、`CreateTodos` という名前の新しいマイグレーションファイルが作成されます。
+
+2. マイグレーションファイルの編集: 作成されたマイグレーションファイルを開き、データベースの構造を記述します。例えば、以下のようになります。
+
+```ruby
+class CreateTodos < ActiveRecord::Migration[6.1]
+  def change
+    create_table :todos do |t|
+      t.string :title
+      t.timestamps
+    end
+  end
+end
+```
+
+このコードは、`todos` テーブルを作成し、その中に `title` という文字列を保存するためのカラムを追加しています。また、`timestamps` メソッドを使用して `created_at` と `updated_at` のカラムも自動的に追加しています。
+
+3. マイグレーションの実行: 作成したマイグレーションをデータベースに適用するために、以下のコマンドを実行します。
+
+```
+bundle exec rails db:migrate
+```
+
+これにより、データベース内に `todos` テーブルが作成されます。
+
+マイグレーションは、データベースの構造を段階的に変更するための仕組みです。新しい機能やデータモデルを追加する場合や、既存の構造を変更する場合に使用されます。マイグレーションを使うことで、データベースの変更を簡単かつ安全に管理できるようになります!!
+
+</div></details>
+<br>
+
 次に、TODO のデータを保存するためのテーブルを作成してください。テーブル名は `todos` とします。テーブルには以下のカラムが必要です。
 
 - `id`: タスクの ID
 - `title`: タスクのタイトル
 - `created_at`: タスクの作成日時
 - `updated_at`: タスクの更新日時
+
+<details><summary>テーブル作成の手順</summary><div>
+
+1. ターミナルで以下のコマンドを実行して、`db/migrate` ディレクトリに移動します。
+
+```
+cd db/migrate
+```
+
+2. `todos` テーブルを作成するためのマイグレーションファイルを作成します。
+
+```
+touch 20230607000000_create_todos_table.rb
+```
+
+3. テキストエディタで `20230607000000_create_todos_table.rb` ファイルを開き、以下のコードを追加します。
+
+```ruby
+class CreateTodosTable < ActiveRecord::Migration[6.1]
+  def change
+    create_table :todos do |t|
+      t.string :title
+      t.timestamps
+    end
+  end
+end
+```
+
+4. 保存してエディタを閉じます。
+
+5. ターミナルで以下のコマンドを実行して、マイグレーションを適用します。
+
+```
+bundle exec rails db:migrate
+```
+
+`todos` テーブルがデータベースに作成されます。
+</div></details>
+
+<br>
 
 ## 3. モデルの作成
 
