@@ -11,7 +11,7 @@
 + [x] [Rails][Level2] MVC について説明できる
 + [ ] [Rails][Level2] CRUD 処理を実装できる
 + [ ] [Rails][Level2] ActiveRecord を使いこなせる
-+ [ ] [API][Level2] API について説明できる
++ [x] [API][Level2] API について説明できる
 + [ ] [API][Level2] Postman を使って API をテストできる
 + [ ] [API][Level2] 簡単な API を作成できる
 + [ ] [API][Level2] API を利用できる
