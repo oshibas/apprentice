@@ -9,13 +9,13 @@
 
 + [x] [実装力][Level2] エラー原因を特定することができる
 + [x] [Rails][Level2] MVC について説明できる
-+ [ ] [Rails][Level2] CRUD 処理を実装できる
-+ [ ] [Rails][Level2] ActiveRecord を使いこなせる
++ [x] [Rails][Level2] CRUD 処理を実装できる
++ [x] [Rails][Level2] ActiveRecord を使いこなせる
 + [x] [API][Level2] API について説明できる
-+ [ ] [API][Level2] Postman を使って API をテストできる
-+ [ ] [API][Level2] 簡単な API を作成できる
-+ [ ] [API][Level2] API を利用できる
-+ [ ] [テスト][Level2] テストコードの方針について説明できる
++ [x] [API][Level2] Postman を使って API をテストできる
++ [x] [API][Level2] 簡単な API を作成できる
++ [x] [API][Level2] API を利用できる
++ [x] [テスト][Level2] テストコードの方針について説明できる
 + [ ] [テスト][Level2] テストの種類について説明できる
 + [ ] [テスト][Level2] 単体テストを書くことができる
 + [ ] [テスト][Level2] 結合テストを書くことができる
