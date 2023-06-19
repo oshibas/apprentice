@@ -1,0 +1,77 @@
+@startuml system
+
+!define AWSPUML https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v20.0/dist
+
+!define ICONURL https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/v2.1.0/dist/C4_Component.puml
+
+!define SPRITESURL https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/v2.1.0/dist/C4_Container.puml
+
+!define GCPURL https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0-0/C4_GCP.puml
+
+!define ICONSIZE 16
+
+!includeurl ICONURL
+
+!includeurl SPRITESURL
+
+!includeurl AWSPUML/AWSCommon.puml
+!includeurl AWSPUML/SecurityIdentityCompliance/Cognito.puml
+!includeurl AWSPUML/Compute/EC2.puml
+!includeurl AWSPUML/NetworkingContentDelivery/Route53.puml
+!includeurl AWSPUML/Storage/S3.puml
+!includeurl AWSPUML/Database/Database.puml
+
+!define CUSTOM_GCP_SPRITES https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0-0/C4_GCP_Icons.puml
+!includeurl CUSTOM_GCP_SPRITES
+
+!define C4Container https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/v2.1.0/dist/C4_Container.puml
+!includeurl C4Container
+
+!define C4Component https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/v2.1.0/dist/C4_Component.puml
+!includeurl C4Component
+
+!define CUSTOM_COLOR_LIGHT #ADD1B2
+
+!define CUSTOM_BORDER_COLOR #4E8098
+!define CUSTOM_BORDER_COLOR_DARK #1F425A
+
+!define CUSTOM_FONT_COLOR_DARK #1F425A
+
+!define CUSTOM_RELATION_COLOR_DARK #4E8098
+
+!define CUSTOM_RELATION_SIZE 14
+
+!define CUSTOM_PACKAGE_WIDTH 250
+!define CUSTOM_PACKAGE_HEADER_HEIGHT 70
+!define CUSTOM_PACKAGE_CONTENT_HEIGHT 120
+
+!define CUSTOM_RELATION_WIDTH 2
+!define CUSTOM_RELATION_DASHED_STYLE
+
+!define CUSTOM_RELATION_ARROW_SIZE 0.3
+
+!define CUSTOM_ARROW_COLOR #4E8098
+!define CUSTOM_ARROW_COLOR_DARK #1F425A
+
+!define CUSTOM_NODE_COLOR_LIGHT #ADD1B2
+!define CUSTOM_NODE_COLOR_DARK #4E8098
+!define CUSTOM_NODE_BORDER_COLOR #1F425A
+
+!define CUSTOM_SPRITE_WIDTH 80
+!define CUSTOM_SPRITE_HEIGHT 80
+!define CUSTOM_SPRITE_MARGIN 3
+
+!define CUSTOM_CLUSTER_WIDTH 200
+!define CUSTOM_CLUSTER_HEIGHT 200
+
+!define CUSTOM_DATABASE_HEIGHT 140
+!define CUSTOM_DATABASE_WIDTH 140
+
+!define CUSTOM_DATABASE_COLOR #F58536
+!define CUSTOM_DATABASE_BORDER_COLOR #1F425A
+
+!define CUSTOM_FIREWALL_COLOR #DD4814
+!define CUSTOM_FIREWALL_BORDER_COLOR #1F425
+
+node AdminServer as "クライアント管理サーバー" << (C,#ADD1B2) >>
+cloud CloudProvider as "クラウドプロバイダー" <<

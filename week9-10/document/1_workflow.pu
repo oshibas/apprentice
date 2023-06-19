@@ -1,0 +1,39 @@
+@startuml work
+start
+:トップページ;
+if (ユーザーが商品一覧を閲覧するか) then (はい)
+  :商品一覧ページ;
+  if (ユーザーが商品を選択するか) then (はい)
+    :商品詳細ページ;
+    if (ユーザーがお問い合わせするか) then (はい)
+      :お問い合わせフォーム;
+    else (いいえ)
+      stop
+    endif
+  else (いいえ)
+    stop
+  endif
+else (いいえ)
+  if (ユーザーがログインするか) then (はい)
+    :ログインページ;
+    if (ユーザーがログインするか) then (はい)
+      :マイページ;
+      if (ユーザーが注文履歴を閲覧するか) then (はい)
+        :注文履歴表示;
+      else (いいえ)
+        stop
+      endif
+    else (いいえ)
+      stop
+    endif
+  else (いいえ)
+    if (ユーザーがお問い合わせするか) then (はい)
+      :お問い合わせフォーム;
+    else (いいえ)
+      stop
+    endif
+  endif
+endif
+:処理終了;
+stop
+@enduml

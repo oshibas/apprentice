@@ -1,0 +1,38 @@
+@startuml sample
+!define AWSPUML https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v14.0/dist
+
+actor User
+
+rectangle "トップページ" as TopPage {
+  [ヒーローエリア]
+  [新着商品]
+  [お知らせ]
+}
+
+rectangle "商品関連ページ" as ProductPage {
+  [商品一覧]
+  [商品詳細]
+  [カート]
+  [その他]
+}
+
+rectangle "ユーザーページ" as UserPage {
+  [ログイン]
+  [マイページ]
+}
+
+rectangle "クライアントの管理ページ" as AdminPage {
+  [商品管理]
+}
+
+rectangle "多言語対応" as Localization {
+  [英語]
+  [中国語]
+}
+
+User -- TopPage : ユーザーアクセス
+TopPage -- ProductPage : 商品関連ページに移動
+ProductPage -- UserPage : ユーザーページに移動
+UserPage -- AdminPage : クライアントの管理ページに移動
+AdminPage -- Localization : 多言語対応ページに移動
+@enduml
