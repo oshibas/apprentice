@@ -1,6 +1,6 @@
 # 設計
 
-以下のファイルを参照してください。
+以下のファイルをご参照ください。
 
 - 業務フロー: 1_workflow.pu
 - 画面遷移図: 2_screenTransitionDiagram.md
