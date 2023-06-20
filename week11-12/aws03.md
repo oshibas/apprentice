@@ -8,6 +8,7 @@ AWS の公式ドキュメントを参考にしながら、以下を進めてく�
 
 EC2 インスタンス用の VPC セキュリティグループを新規に作成してください。外部からの HTTP 通信及び SSH 通信のみを許可するようにします。
 
+
 - 作成した VPC を選択してください
 - 外部からの HTTP 通信は全て許可するように設定してください。それにより、EC2 インスタンスに HTTP 通信できるようになります
 - 外部からの SSH 通信は、自分の IP アドレスからのみ許可するように設定してください。それにより、自分の IP アドレスからのみ EC2 インスタンスに SSH 通信できるようになります。AWS コンソールからの接続も許可する場合、[Set up EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-set-up.html) を参考に、AWS の IP アドレスも許可してください
