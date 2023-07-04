@@ -1,0 +1,56 @@
+@startuml system
+
+!define RUBY [URL=https://raw.githubusercontent.com/github/explore/main/topics/ruby/ruby.png] as Ruby
+!define RAILS [URL=https://raw.githubusercontent.com/github/explore/main/topics/rails/rails.png] as Rails
+!define JS [URL=https://raw.githubusercontent.com/github/explore/main/topics/javascript/javascript.png] as JavaScript
+!define HTML5 [URL=https://raw.githubusercontent.com/github/explore/main/topics/html/html.png] as HTML
+!define CSS3 [URL=https://raw.githubusercontent.com/github/explore/main/topics/css/css.png] as CSS
+!define VUEJS [URL=https://raw.githubusercontent.com/github/explore/main/topics/vue/vue.png] as Vue.js
+!define TAILWINDCSS [URL=https://raw.githubusercontent.com/github/explore/main/topics/tailwind/tailwind.png] as Tailwind CSS
+!define DOCKER [URL=https://raw.githubusercontent.com/github/explore/main/topics/docker/docker.png] as Docker
+!define RUBOCOP [URL=https://raw.githubusercontent.com/github/explore/main/topics/rubocop/rubocop.png] as RuboCop
+!define GITHUB [URL=https://raw.githubusercontent.com/github/explore/main/topics/github/github.png] as GitHub
+!define RSPEC [URL=https://raw.githubusercontent.com/github/explore/main/topics/rspec/rspec.png] as RSpec
+!define GITHUBACTIONS [URL=https://raw.githubusercontent.com/github/explore/main/topics/github-actions/github-actions.png] as GitHub Actions
+!define GA [URL=https://raw.githubusercontent.com/github/explore/main/topics/google-analytics/google-analytics.png] as Google Analytics
+
+package "バックエンド" {
+  Ruby --> Rails
+  Rails ..> MySQL : 使用
+}
+
+package "フロントエンド" {
+  JavaScript --> HTML
+  JavaScript --> CSS
+  JavaScript --> Vue.js
+}
+
+package "環境構築" {
+  Docker --> MySQL : コンテナ化
+}
+
+package "インフラ" {
+  node "クラウドプラットフォーム" as cloud {
+  }
+  cloud --> EC2 : 仮想サーバー
+  cloud --> S3 : ストレージ
+  cloud --> CloudFront : CDN
+  cloud --> Route53 : ドメイン管理
+  cloud --> Cognito : ユーザー認証
+}
+
+package "コードの品質管理" {
+  Ruby --> RuboCop
+}
+
+package "テストとデプロイ" {
+  Ruby --> RSpec
+  GitHubActions --> RSpec : テスト実行
+}
+
+package "プロジェクト管理" {
+  GitHub --> "バージョン管理"
+}
+
+
+@enduml

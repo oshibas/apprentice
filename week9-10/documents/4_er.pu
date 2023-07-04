@@ -1,23 +1,53 @@
 @startuml er
-entity "product" as product {
-  + id : int <<PK>>
-  name : varchar(200)
-  price : int
-  image : varchar(200)
+entity "products" as products {
+  +id [PK]
+  stock
+  created_at
+  updated_at
+  name
+  category
+  main_image
+  sub_image1
+  sub_image2
+  sub_image3
+  sub_image4
+  variety
+  price
+  size
+  description
+  cultivation_guide
+  tags
 }
 
-entity "login" as login {
-  + id : int <<PK>>
-  username : varchar(100) <<unique>>
-  password : varchar(100)
+entity "user_master" as user_master {
+  +id [PK]
+  nickname
+  password
+  created_at
+  updated_at
 }
 
 entity "password_reset" as password_reset {
-  + id : int <<PK>>
-  login_id : int <<FK>>
-  token : varchar(100)
+  +id [PK]
+  user_id [FK]
+  token
+  created_at
 }
 
-product ||--o{ favorite
-login ||--o{ password_reset
+entity "favorite_master" as favorite_master {
+  customer_id [FK]
+  product_id [FK]
+  created_at
+}
+
+entity "news" as news {
+  +id [PK]
+  date
+  content
+}
+
+products ||-o{ favorite_master
+user_master ||-o{ favorite_master
+user_master ||-o{ password_reset
+
 @enduml
